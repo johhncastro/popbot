@@ -46,7 +46,7 @@ export const rouletteCommand = {
     if (options.length === 1) {
       await interaction.reply({
         content: '🎯 Only one option provided. The result is: **' + options[0] + '**',
-        flags: isPrivate ? 64 : 0,
+        ephemeral: isPrivate,
       });
       return;
     }
@@ -65,7 +65,7 @@ export const rouletteCommand = {
 
       await interaction.reply({
         embeds: [initialEmbed],
-        flags: isPrivate ? 64 : 0,
+        ephemeral: isPrivate,
       });
 
       // Create spinning animation

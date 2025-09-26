@@ -53,7 +53,7 @@ export const priceCommand = {
     }
 
     try {
-      await interaction.deferReply({ flags: isPrivate ? 64 : 0 });
+      await interaction.deferReply({ ephemeral: isPrivate });
 
       const priceData = await coingeckoProvider.getPrices([symbol], vs);
       const data = priceData[0];
@@ -149,7 +149,7 @@ export const pricesCommand = {
     }
 
     try {
-      await interaction.deferReply({ flags: isPrivate ? 64 : 0 });
+      await interaction.deferReply({ ephemeral: isPrivate });
 
       const priceData = await coingeckoProvider.getPrices(valid, vs);
       

@@ -6,7 +6,7 @@ config();
 export interface BotConfig {
   token: string;
   clientId: string;
-  guildId?: string;
+  guildId?: string | undefined;
 }
 
 export const botConfig: BotConfig = {

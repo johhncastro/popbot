@@ -3,6 +3,8 @@ import { botConfig } from './config.js';
 import { rateLimiter } from './rateLimit.js';
 import { priceCommand, pricesCommand } from './commands/price.js';
 import { rouletteCommand } from './commands/roulette.js';
+import { monitorCommand } from './commands/monitor.js';
+import { MonitorService } from './services/monitorService.js';
 
 // Create a new client instance
 const client = new Client({
@@ -16,11 +18,19 @@ const commands = new Collection();
 commands.set(priceCommand.data.name, priceCommand);
 commands.set(pricesCommand.data.name, pricesCommand);
 commands.set(rouletteCommand.data.name, rouletteCommand);
+commands.set(monitorCommand.data.name, monitorCommand);
+
+// Initialize monitoring service
+let monitorService: MonitorService;
 
 // When the client is ready, run this code (only once)
 client.once(Events.ClientReady, (readyClient) => {
   console.log(`✅ Bot is ready! Logged in as ${readyClient.user.tag}`);
   console.log(`📊 Serving ${commands.size} slash commands`);
+  
+  // Initialize monitoring service
+  monitorService = new MonitorService(client);
+  console.log('🌐 Website monitoring service initialized');
 });
 
 // Handle slash command interactions
@@ -34,22 +44,27 @@ client.on(Events.InteractionCreate, async (interaction) => {
     return;
   }
 
-  try {
-    // Check rate limiting for price commands
-    if (interaction.commandName === 'price' || interaction.commandName === 'prices' || interaction.commandName === 'roulette') {
-      if (rateLimiter.isRateLimited(interaction.user.id)) {
-        const timeUntilReset = rateLimiter.getTimeUntilReset(interaction.user.id);
-        const seconds = Math.ceil(timeUntilReset / 1000);
-        
-        await interaction.reply({
-          content: `⏰ Rate limited! Please wait ${seconds} seconds before using price commands again.`,
-          ephemeral: true,
-        });
-        return;
+    try {
+      // Check rate limiting for price commands
+      if (interaction.commandName === 'price' || interaction.commandName === 'prices' || interaction.commandName === 'roulette') {
+        if (rateLimiter.isRateLimited(interaction.user.id)) {
+          const timeUntilReset = rateLimiter.getTimeUntilReset(interaction.user.id);
+          const seconds = Math.ceil(timeUntilReset / 1000);
+          
+          await interaction.reply({
+            content: `⏰ Rate limited! Please wait ${seconds} seconds before using price commands again.`,
+            ephemeral: true,
+          });
+          return;
+        }
       }
-    }
 
-    await command.execute(interaction);
+      // Pass monitoring service to monitor command
+      if (interaction.commandName === 'monitor' && monitorService) {
+        await (command as any).execute(interaction, monitorService);
+      } else {
+        await (command as any).execute(interaction);
+      }
   } catch (error) {
     console.error('Error executing command:', error);
     

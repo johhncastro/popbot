@@ -102,32 +102,6 @@ export class CoinGeckoProvider implements PriceProvider {
     'neo': 'neo',
     'ont': 'ontology',
     'icx': 'icon',
-    'zec': 'zcash',
-    'dash': 'dash',
-    'xmr': 'monero',
-    'btc': 'bitcoin',
-    'eth': 'ethereum',
-    'ltc': 'litecoin',
-    'bch': 'bitcoin-cash',
-    'xrp': 'ripple',
-    'ada': 'cardano',
-    'dot': 'polkadot',
-    'sol': 'solana',
-    'avax': 'avalanche-2',
-    'matic': 'matic-network',
-    'link': 'chainlink',
-    'atom': 'cosmos',
-    'near': 'near',
-    'ftm': 'fantom',
-    'algo': 'algorand',
-    'vet': 'vechain',
-    'icp': 'internet-computer',
-    'fil': 'filecoin',
-    'trx': 'tron',
-    'xlm': 'stellar',
-    'hbar': 'hedera-hashgraph',
-    'egld': 'elrond-erd-2',
-    'xtz': 'tezos',
   };
 
   async getPrices(symbols: string[], vs: string = 'usd'): Promise<PriceData[]> {
@@ -153,6 +127,11 @@ export class CoinGeckoProvider implements PriceProvider {
       for (let i = 0; i < symbols.length; i++) {
         const symbol = symbols[i];
         const coinId = coinIds[i];
+        
+        if (!symbol || !coinId) {
+          continue;
+        }
+        
         const coinData = data[coinId];
 
         if (!coinData) {
