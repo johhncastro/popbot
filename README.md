@@ -1,5 +1,4 @@
-# PopBot - Discord Crypto & Roulette Bot
-
+# PopBot 
 A Discord bot built with Node.js and TypeScript that provides cryptocurrency prices and a fun roulette wheel game (more coming soon!).
 
 ## Features
