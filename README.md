@@ -70,8 +70,3 @@ docker-compose up -d
 
 MIT License - feel free to use for your own projects!
 
----
-
-**Happy coding! 🎉**
-
----
