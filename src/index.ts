@@ -4,6 +4,7 @@ import { rateLimiter } from './rateLimit.js';
 import { priceCommand, pricesCommand } from './commands/price.js';
 import { rouletteCommand } from './commands/roulette.js';
 import { monitorCommand } from './commands/monitor.js';
+import { statusCommand } from './commands/status.js';
 import { MonitorService } from './services/monitorService.js';
 
 // Create a new client instance
@@ -19,6 +20,7 @@ commands.set(priceCommand.data.name, priceCommand);
 commands.set(pricesCommand.data.name, pricesCommand);
 commands.set(rouletteCommand.data.name, rouletteCommand);
 commands.set(monitorCommand.data.name, monitorCommand);
+commands.set(statusCommand.data.name, statusCommand);
 
 // Initialize monitoring service
 let monitorService: MonitorService;
@@ -59,8 +61,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
         }
       }
 
-      // Pass monitoring service to monitor command
-      if (interaction.commandName === 'monitor' && monitorService) {
+      // Pass monitoring service to monitor and status commands
+      if ((interaction.commandName === 'monitor' || interaction.commandName === 'status') && monitorService) {
         await (command as any).execute(interaction, monitorService);
       } else {
         await (command as any).execute(interaction);

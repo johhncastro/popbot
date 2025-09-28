@@ -3,12 +3,14 @@ import { botConfig } from './config.js';
 import { priceCommand, pricesCommand } from './commands/price.js';
 import { rouletteCommand } from './commands/roulette.js';
 import { monitorCommand } from './commands/monitor.js';
+import { statusCommand } from './commands/status.js';
 
 const commands = [
   priceCommand.data.toJSON(),
   pricesCommand.data.toJSON(),
   rouletteCommand.data.toJSON(),
   monitorCommand.data.toJSON(),
+  statusCommand.data.toJSON(),
 ];
 
 // Construct and prepare an instance of the REST module
