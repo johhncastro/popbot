@@ -1,4 +1,6 @@
 import { Client, TextChannel, EmbedBuilder } from 'discord.js';
+import { writeFileSync, readFileSync, existsSync } from 'fs';
+import { join } from 'path';
 
 interface MonitorConfig {
   url: string;
@@ -12,19 +14,28 @@ class MonitorService {
   private client: Client;
   private monitors: Map<string, MonitorConfig> = new Map();
   private intervals: Map<string, NodeJS.Timeout> = new Map();
+  private readonly dataFile = join(process.cwd(), 'monitors.json');
 
   constructor(client: Client) {
     this.client = client;
+    this.loadMonitors();
+    
+    // Save monitors every 5 minutes to ensure persistence
+    setInterval(() => {
+      this.saveMonitors();
+    }, 5 * 60 * 1000);
   }
 
   addMonitor(id: string, config: MonitorConfig) {
     this.monitors.set(id, config);
     this.startMonitoring(id);
+    this.saveMonitors();
   }
 
   removeMonitor(id: string) {
     this.monitors.delete(id);
     this.stopMonitoring(id);
+    this.saveMonitors();
   }
 
   private startMonitoring(id: string) {
@@ -70,16 +81,19 @@ class MonitorService {
       const statusText = response.statusText;
 
       // Update last status
+      const previousStatus = config.lastStatus;
       config.lastStatus = isUp;
       config.lastCheck = Date.now();
 
       // If status changed from up to down, send alert
-      if (!isUp && config.lastStatus !== false) {
+      if (!isUp && previousStatus !== false) {
         await this.sendDownAlert(config, statusCode, statusText);
+        this.saveMonitors(); // Save when status changes
       }
       // If status changed from down to up, send recovery alert
-      else if (isUp && config.lastStatus === false) {
+      else if (isUp && previousStatus === false) {
         await this.sendRecoveryAlert(config, statusCode, statusText);
+        this.saveMonitors(); // Save when status changes
       }
 
     } catch (error) {
@@ -148,6 +162,34 @@ class MonitorService {
     return activeMonitors.length > 0 
       ? activeMonitors.join('\n')
       : 'No active monitors';
+  }
+
+  private loadMonitors(): void {
+    try {
+      if (existsSync(this.dataFile)) {
+        const data = readFileSync(this.dataFile, 'utf8');
+        const savedMonitors = JSON.parse(data);
+        
+        // Restore monitors from saved data
+        for (const [id, config] of Object.entries(savedMonitors)) {
+          this.monitors.set(id, config as MonitorConfig);
+          this.startMonitoring(id);
+        }
+        
+        console.log(`🔄 Loaded ${this.monitors.size} monitors from persistent storage`);
+      }
+    } catch (error) {
+      console.error('Error loading monitors from storage:', error);
+    }
+  }
+
+  private saveMonitors(): void {
+    try {
+      const monitorsData = Object.fromEntries(this.monitors);
+      writeFileSync(this.dataFile, JSON.stringify(monitorsData, null, 2));
+    } catch (error) {
+      console.error('Error saving monitors to storage:', error);
+    }
   }
 }
 

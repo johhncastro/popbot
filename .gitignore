@@ -40,3 +40,8 @@ coverage/
 
 # TypeScript cache
 *.tsbuildinfo
+
+# Bot data files
+monitors.json
+
+

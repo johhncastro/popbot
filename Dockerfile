@@ -24,8 +24,7 @@ RUN adduser -S discord -u 1001
 RUN chown -R discord:nodejs /app
 USER discord
 
-# Expose port (not needed for Discord bots, but good practice)
-EXPOSE 3000
+# Discord bots don't need exposed ports - they connect to Discord servers
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \

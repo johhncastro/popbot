@@ -66,6 +66,8 @@ Monitor your websites and get instant alerts:
 docker-compose up -d
 ```
 
+**Note:** Discord bots don't need exposed ports - they connect to Discord's servers, not run web servers.
+
 ## 📄 License
 
 MIT License - feel free to use for your own projects!
