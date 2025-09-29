@@ -5,6 +5,7 @@ import { priceCommand, pricesCommand } from './commands/price.js';
 import { rouletteCommand } from './commands/roulette.js';
 import { monitorCommand } from './commands/monitor.js';
 import { statusCommand } from './commands/status.js';
+import { helpCommand } from './commands/help.js';
 import { MonitorService } from './services/monitorService.js';
 
 // Create a new client instance
@@ -21,6 +22,7 @@ commands.set(pricesCommand.data.name, pricesCommand);
 commands.set(rouletteCommand.data.name, rouletteCommand);
 commands.set(monitorCommand.data.name, monitorCommand);
 commands.set(statusCommand.data.name, statusCommand);
+commands.set(helpCommand.data.name, helpCommand);
 
 // Initialize monitoring service
 let monitorService: MonitorService;

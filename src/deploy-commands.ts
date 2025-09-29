@@ -4,6 +4,7 @@ import { priceCommand, pricesCommand } from './commands/price.js';
 import { rouletteCommand } from './commands/roulette.js';
 import { monitorCommand } from './commands/monitor.js';
 import { statusCommand } from './commands/status.js';
+import { helpCommand } from './commands/help.js';
 
 const commands = [
   priceCommand.data.toJSON(),
@@ -11,6 +12,7 @@ const commands = [
   rouletteCommand.data.toJSON(),
   monitorCommand.data.toJSON(),
   statusCommand.data.toJSON(),
+  helpCommand.data.toJSON(),
 ];
 
 // Construct and prepare an instance of the REST module
