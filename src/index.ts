@@ -6,7 +6,9 @@ import { rouletteCommand } from './commands/roulette.js';
 import { monitorCommand } from './commands/monitor.js';
 import { statusCommand } from './commands/status.js';
 import { helpCommand } from './commands/help.js';
+import { twitchAddCommand, twitchRemoveCommand, twitchListCommand } from './commands/twitch.js';
 import { MonitorService } from './services/monitorService.js';
+import { TwitchService } from './services/twitchService.js';
 
 // Create a new client instance
 const client = new Client({
@@ -23,18 +25,24 @@ commands.set(rouletteCommand.data.name, rouletteCommand);
 commands.set(monitorCommand.data.name, monitorCommand);
 commands.set(statusCommand.data.name, statusCommand);
 commands.set(helpCommand.data.name, helpCommand);
+commands.set(twitchAddCommand.data.name, twitchAddCommand);
+commands.set(twitchRemoveCommand.data.name, twitchRemoveCommand);
+commands.set(twitchListCommand.data.name, twitchListCommand);
 
-// Initialize monitoring service
+// Initialize services
 let monitorService: MonitorService;
+let twitchService: TwitchService;
 
 // When the client is ready, run this code (only once)
 client.once(Events.ClientReady, (readyClient) => {
   console.log(`✅ Bot is ready! Logged in as ${readyClient.user.tag}`);
   console.log(`📊 Serving ${commands.size} slash commands`);
   
-  // Initialize monitoring service
+  // Initialize services
   monitorService = new MonitorService(client);
+  twitchService = new TwitchService(client);
   console.log('🌐 Website monitoring service initialized');
+  console.log('📺 Twitch live notifications service initialized');
 });
 
 // Handle slash command interactions
@@ -63,9 +71,11 @@ client.on(Events.InteractionCreate, async (interaction) => {
         }
       }
 
-      // Pass monitoring service to monitor and status commands
+      // Pass services to commands that need them
       if ((interaction.commandName === 'monitor' || interaction.commandName === 'status') && monitorService) {
         await (command as any).execute(interaction, monitorService);
+      } else if ((interaction.commandName === 'twitch-add' || interaction.commandName === 'twitch-remove' || interaction.commandName === 'twitch-list') && twitchService) {
+        await (command as any).execute(interaction, twitchService);
       } else {
         await (command as any).execute(interaction);
       }

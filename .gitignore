@@ -43,5 +43,9 @@ coverage/
 
 # Bot data files
 monitors.json
+streamers.json
+
+# API Keys (keep secret)
+.env
 
 

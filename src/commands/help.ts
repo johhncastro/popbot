@@ -14,7 +14,10 @@ export const helpCommand = {
           { name: '📊 Prices', value: 'prices' },
           { name: '🎰 Roulette', value: 'roulette' },
           { name: '🌐 Monitor', value: 'monitor' },
-          { name: '🔧 Status', value: 'status' }
+          { name: '🔧 Status', value: 'status' },
+          { name: '📺 Twitch Add', value: 'twitch-add' },
+          { name: '📺 Twitch Remove', value: 'twitch-remove' },
+          { name: '📺 Twitch List', value: 'twitch-list' }
         )
     )
     .addBooleanOption(option =>
@@ -72,8 +75,13 @@ function createGeneralHelp(): EmbedBuilder {
         inline: false
       },
       {
+        name: '📺 Twitch Commands',
+        value: '`/twitch-add` - Add streamer for live notifications\n`/twitch-remove` - Remove streamer from notifications\n`/twitch-list` - List all monitored streamers',
+        inline: false
+      },
+      {
         name: '📋 Quick Examples',
-        value: '`/price symbol:btc`\n`/prices symbols:btc,eth,sol`\n`/roulette options:"Game 1,Game 2"`\n`/monitor url:https://example.com channel:#alerts`',
+        value: '`/price symbol:btc`\n`/prices symbols:btc,eth,sol`\n`/roulette options:"Game 1,Game 2"`\n`/monitor url:https://example.com channel:#alerts`\n`/twitch-add username:ninja channel:#live`',
         inline: false
       },
       {
@@ -136,6 +144,34 @@ function createSpecificCommandHelp(command: string): EmbedBuilder {
         '/status',
         '/status private:true'
       ]
+    },
+    'twitch-add': {
+      title: '📺 /twitch-add Command',
+      description: 'Add a Twitch streamer to live notifications',
+      usage: '/twitch-add username:<streamer> channel:<#channel> [private:<true/false>]',
+      examples: [
+        '/twitch-add username:ninja channel:#live',
+        '/twitch-add username:shroud channel:#notifications',
+        '/twitch-add username:pokimane channel:#streams private:true'
+      ]
+    },
+    'twitch-remove': {
+      title: '📺 /twitch-remove Command',
+      description: 'Remove a Twitch streamer from live notifications',
+      usage: '/twitch-remove username:<streamer> [private:<true/false>]',
+      examples: [
+        '/twitch-remove username:ninja',
+        '/twitch-remove username:shroud private:true'
+      ]
+    },
+    'twitch-list': {
+      title: '📺 /twitch-list Command',
+      description: 'List all monitored Twitch streamers and their status',
+      usage: '/twitch-list [private:<true/false>]',
+      examples: [
+        '/twitch-list',
+        '/twitch-list private:true'
+      ]
     }
   };
 
@@ -178,7 +214,10 @@ function getCommandTips(command: string): string {
     prices: '• Maximum 10 symbols per request\n• Use commas to separate symbols\n• Rate limited to 1 request per 3 seconds',
     roulette: '• Maximum 10 options per spin\n• Use quotes around the options list\n• Great for random selection games',
     monitor: '• Monitors websites every 5 minutes by default\n• Sends @here alerts when sites go down\n• Automatically detects recovery',
-    status: '• Shows all active monitors\n• Displays last check times\n• Helps troubleshoot monitoring issues'
+    status: '• Shows all active monitors\n• Displays last check times\n• Helps troubleshoot monitoring issues',
+    'twitch-add': '• Use Twitch username without @ symbol\n• @everyone will be pinged when they go live\n• Check every 2 minutes for live status',
+    'twitch-remove': '• Use exact username to remove\n• No confirmation needed\n• Immediately stops monitoring',
+    'twitch-list': '• Shows all monitored streamers\n• Displays live/offline status\n• Shows last check times'
   };
 
   return tips[command] || 'No specific tips available for this command.';
