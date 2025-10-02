@@ -75,7 +75,7 @@ function createGeneralHelp(): EmbedBuilder {
         inline: false
       },
       {
-        name: '📺 Twitch Commands',
+        name: '📺 Twitch Commands (Admin Only)',
         value: '`/twitch-add` - Add streamer for live notifications\n`/twitch-remove` - Remove streamer from notifications\n`/twitch-list` - List all monitored streamers',
         inline: false
       },
@@ -146,8 +146,8 @@ function createSpecificCommandHelp(command: string): EmbedBuilder {
       ]
     },
     'twitch-add': {
-      title: '📺 /twitch-add Command',
-      description: 'Add a Twitch streamer to live notifications',
+      title: '📺 /twitch-add Command (Admin Only)',
+      description: 'Add a Twitch streamer to live notifications (requires Administrator permissions)',
       usage: '/twitch-add username:<streamer> channel:<#channel> [private:<true/false>]',
       examples: [
         '/twitch-add username:ninja channel:#live',
@@ -156,8 +156,8 @@ function createSpecificCommandHelp(command: string): EmbedBuilder {
       ]
     },
     'twitch-remove': {
-      title: '📺 /twitch-remove Command',
-      description: 'Remove a Twitch streamer from live notifications',
+      title: '📺 /twitch-remove Command (Admin Only)',
+      description: 'Remove a Twitch streamer from live notifications (requires Administrator permissions)',
       usage: '/twitch-remove username:<streamer> [private:<true/false>]',
       examples: [
         '/twitch-remove username:ninja',
@@ -165,8 +165,8 @@ function createSpecificCommandHelp(command: string): EmbedBuilder {
       ]
     },
     'twitch-list': {
-      title: '📺 /twitch-list Command',
-      description: 'List all monitored Twitch streamers and their status',
+      title: '📺 /twitch-list Command (Admin Only)',
+      description: 'List all monitored Twitch streamers and their status (requires Administrator permissions)',
       usage: '/twitch-list [private:<true/false>]',
       examples: [
         '/twitch-list',

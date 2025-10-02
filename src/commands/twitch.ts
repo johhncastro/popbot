@@ -29,6 +29,15 @@ export const twitchAddCommand = {
     const channel = interaction.options.getChannel('channel', true);
     const isPrivate = interaction.options.getBoolean('private') || false;
 
+    // Check if user has admin permissions
+    if (!interaction.memberPermissions?.has('Administrator')) {
+      await interaction.reply({
+        content: '❌ You need Administrator permissions to manage Twitch notifications.',
+        ephemeral: true,
+      });
+      return;
+    }
+
     // Validate channel
     if (channel.type !== 0) { // 0 = GUILD_TEXT
       await interaction.reply({
@@ -115,6 +124,15 @@ export const twitchRemoveCommand = {
     const username = interaction.options.getString('username', true).toLowerCase().trim();
     const isPrivate = interaction.options.getBoolean('private') || false;
 
+    // Check if user has admin permissions
+    if (!interaction.memberPermissions?.has('Administrator')) {
+      await interaction.reply({
+        content: '❌ You need Administrator permissions to manage Twitch notifications.',
+        ephemeral: true,
+      });
+      return;
+    }
+
     if (!twitchService) {
       await interaction.reply({
         content: '❌ Twitch service is not available.',
@@ -181,6 +199,15 @@ export const twitchListCommand = {
 
   async execute(interaction: ChatInputCommandInteraction, twitchService?: TwitchService) {
     const isPrivate = interaction.options.getBoolean('private') || false;
+
+    // Check if user has admin permissions
+    if (!interaction.memberPermissions?.has('Administrator')) {
+      await interaction.reply({
+        content: '❌ You need Administrator permissions to manage Twitch notifications.',
+        ephemeral: true,
+      });
+      return;
+    }
 
     if (!twitchService) {
       await interaction.reply({
