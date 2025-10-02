@@ -70,7 +70,7 @@ function createGeneralHelp(): EmbedBuilder {
         inline: false
       },
       {
-        name: '🌐 Monitoring Commands',
+        name: '🌐 Monitoring Commands (Admin Only)',
         value: '`/monitor` - Monitor websites and get alerts\n`/status` - Check monitoring service status',
         inline: false
       },
@@ -127,8 +127,8 @@ function createSpecificCommandHelp(command: string): EmbedBuilder {
       ]
     },
     monitor: {
-      title: '🌐 /monitor Command',
-      description: 'Monitor a website and get pinged if it goes down',
+      title: '🌐 /monitor Command (Admin Only)',
+      description: 'Monitor a website and get pinged if it goes down (requires Administrator permissions)',
       usage: '/monitor url:<website> channel:<#channel> [interval:<minutes>] [start:<true/false>]',
       examples: [
         '/monitor url:https://kawaiiscan.com channel:#alerts',
@@ -137,8 +137,8 @@ function createSpecificCommandHelp(command: string): EmbedBuilder {
       ]
     },
     status: {
-      title: '🔧 /status Command',
-      description: 'Check the status of the monitoring service and all monitored websites',
+      title: '🔧 /status Command (Admin Only)',
+      description: 'Check the status of the monitoring service and all monitored websites (requires Administrator permissions)',
       usage: '/status [private:<true/false>]',
       examples: [
         '/status',

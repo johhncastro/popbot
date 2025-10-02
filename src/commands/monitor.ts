@@ -38,6 +38,15 @@ export const monitorCommand = {
     const interval = interaction.options.getInteger('interval') || 5;
     const startImmediately = interaction.options.getBoolean('start') || false;
 
+    // Check if user has admin permissions
+    if (!interaction.memberPermissions?.has('Administrator')) {
+      await interaction.reply({
+        content: '❌ You need Administrator permissions to manage website monitoring.',
+        ephemeral: true,
+      });
+      return;
+    }
+
     // Validate URL
     try {
       new URL(url);

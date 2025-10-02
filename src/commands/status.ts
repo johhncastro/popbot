@@ -15,6 +15,15 @@ export const statusCommand = {
   async execute(interaction: ChatInputCommandInteraction, monitorService?: MonitorService) {
     const isPrivate = interaction.options.getBoolean('private') || false;
 
+    // Check if user has admin permissions
+    if (!interaction.memberPermissions?.has('Administrator')) {
+      await interaction.reply({
+        content: '❌ You need Administrator permissions to check monitoring status.',
+        ephemeral: true,
+      });
+      return;
+    }
+
     try {
       await interaction.deferReply({ ephemeral: isPrivate });
 
