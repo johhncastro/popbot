@@ -219,23 +219,25 @@ class TwitchService {
       const channel = await this.client.channels.fetch(config.channelId) as TextChannel;
       if (!channel) return;
 
+      const twitchUrl = `https://www.twitch.tv/${config.username}`;
       const embed = new EmbedBuilder()
         .setTitle('🔴 LIVE NOW!')
-        .setDescription(`@everyone **${config.username}** is now live on Twitch!`)
+        .setDescription(`@everyone **${config.username}** is now live on Twitch!\n\n🔗 **[Watch Live](${twitchUrl})**`)
         .setColor(0x9146ff)
         .addFields(
           { name: '📺 Stream Title', value: stream.title || 'No title', inline: false },
           { name: '🎮 Game', value: stream.game_name || 'No game', inline: true },
           { name: '👀 Viewers', value: stream.viewer_count.toString(), inline: true },
-          { name: '🌍 Language', value: stream.language || 'Unknown', inline: true }
+          { name: '🌍 Language', value: stream.language || 'Unknown', inline: true },
+          { name: '🔗 Twitch Link', value: `[twitch.tv/${config.username}](${twitchUrl})`, inline: false }
         )
         .setThumbnail(stream.thumbnail_url?.replace('{width}', '320').replace('{height}', '180') || '')
-        .setURL(`https://www.twitch.tv/${config.username}`)
+        .setURL(twitchUrl)
         .setTimestamp()
         .setFooter({ text: 'PopBot Twitch Notifications' });
 
       await channel.send({ 
-        content: `@everyone **${config.username}** is live!`,
+        content: `@everyone **${config.username}** is live! 🔴\n🔗 ${twitchUrl}`,
         embeds: [embed] 
       });
 
@@ -247,7 +249,7 @@ class TwitchService {
   getStatus(): string {
     const activeStreamers = Array.from(this.streamers.entries()).map(([id, config]) => {
       const status = config.isLive ? '🔴 Live' : '⚫ Offline';
-      const lastCheck = config.lastCheck ? `<t:${Math.floor(config.lastCheck / 1000)}:R>` : 'Never';
+      const lastCheck = config.lastChecked ? `<t:${Math.floor(config.lastChecked / 1000)}:R>` : 'Never';
       return `**${config.username}** - ${status} (Last check: ${lastCheck})`;
     });
 
