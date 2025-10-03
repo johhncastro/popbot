@@ -1,7 +1,7 @@
 {
   "name": "popbot-discord",
   "version": "1.0.0",
-  "description": "A Discord bot with crypto price commands for Active Developer badge",
+  "description": "A Discord bot for my main server",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
