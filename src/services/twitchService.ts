@@ -222,7 +222,7 @@ class TwitchService {
       const twitchUrl = `https://www.twitch.tv/${config.username}`;
       const embed = new EmbedBuilder()
         .setTitle('🔴 LIVE NOW!')
-        .setDescription(`@everyone **${config.username}** is now live on Twitch!\n\n🔗 **[Watch Live](${twitchUrl})**`)
+        .setDescription(`@everyone **${config.username}** is now live on Twitch!`)
         .setColor(0x9146ff)
         .addFields(
           { name: '📺 Stream Title', value: stream.title || 'No title', inline: false },
@@ -237,7 +237,7 @@ class TwitchService {
         .setFooter({ text: 'PopBot Twitch Notifications' });
 
       await channel.send({ 
-        content: `@everyone **${config.username}** is live! 🔴\n🔗 ${twitchUrl}`,
+        content: `@everyone **${config.username}** is live! 🔴`,
         embeds: [embed] 
       });
 
