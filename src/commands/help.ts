@@ -13,6 +13,7 @@ export const helpCommand = {
           { name: '💰 Price', value: 'price' },
           { name: '📊 Prices', value: 'prices' },
           { name: '🎰 Roulette', value: 'roulette' },
+          { name: '🎮 Minecraft Search', value: 'minecraftsearch' },
           { name: '🌐 Monitor', value: 'monitor' },
           { name: '🔧 Status', value: 'status' },
           { name: '📺 Twitch Add', value: 'twitch-add' },
@@ -66,7 +67,7 @@ function createGeneralHelp(): EmbedBuilder {
       },
       {
         name: '🎰 Fun Commands',
-        value: '`/roulette` - Spin the wheel for random selection',
+        value: '`/roulette` - Spin the wheel for random selection\n`/minecraftsearch` - Search Minecraft player data',
         inline: false
       },
       {
@@ -124,6 +125,16 @@ function createSpecificCommandHelp(command: string): EmbedBuilder {
         '/roulette options:"Minecraft,Fortnite,Among Us"',
         '/roulette options:"Alice,Bob,Charlie,David"',
         '/roulette options:"Pizza,Burger,Sushi,Tacos" private:true'
+      ]
+    },
+    'minecraftsearch': {
+      title: '🎮 /minecraftsearch Command',
+      description: 'Search for Minecraft player data including skins, capes, and name history',
+      usage: '/minecraftsearch username:<player> [private:<true/false>]',
+      examples: [
+        '/minecraftsearch username:notch',
+        '/minecraftsearch username:dream',
+        '/minecraftsearch username:technoblade private:true'
       ]
     },
     monitor: {

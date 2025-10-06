@@ -7,6 +7,7 @@ import { monitorCommand } from './commands/monitor.js';
 import { statusCommand } from './commands/status.js';
 import { helpCommand } from './commands/help.js';
 import { twitchAddCommand, twitchRemoveCommand, twitchListCommand } from './commands/twitch.js';
+import { minecraftCommand } from './commands/minecraft.js';
 import { MonitorService } from './services/monitorService.js';
 import { TwitchService } from './services/twitchService.js';
 
@@ -28,6 +29,7 @@ commands.set(helpCommand.data.name, helpCommand);
 commands.set(twitchAddCommand.data.name, twitchAddCommand);
 commands.set(twitchRemoveCommand.data.name, twitchRemoveCommand);
 commands.set(twitchListCommand.data.name, twitchListCommand);
+commands.set(minecraftCommand.data.name, minecraftCommand);
 
 // Initialize services
 let monitorService: MonitorService;

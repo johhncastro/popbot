@@ -6,6 +6,7 @@ import { monitorCommand } from './commands/monitor.js';
 import { statusCommand } from './commands/status.js';
 import { helpCommand } from './commands/help.js';
 import { twitchAddCommand, twitchRemoveCommand, twitchListCommand } from './commands/twitch.js';
+import { minecraftCommand } from './commands/minecraft.js';
 
 const commands = [
   priceCommand.data.toJSON(),
@@ -17,6 +18,7 @@ const commands = [
   twitchAddCommand.data.toJSON(),
   twitchRemoveCommand.data.toJSON(),
   twitchListCommand.data.toJSON(),
+  minecraftCommand.data.toJSON(),
 ];
 
 // Construct and prepare an instance of the REST module
