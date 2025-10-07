@@ -18,7 +18,10 @@ export const helpCommand = {
           { name: '🔧 Status', value: 'status' },
           { name: '📺 Twitch Add', value: 'twitch-add' },
           { name: '📺 Twitch Remove', value: 'twitch-remove' },
-          { name: '📺 Twitch List', value: 'twitch-list' }
+          { name: '📺 Twitch List', value: 'twitch-list' },
+          { name: '📺 YouTube Add', value: 'youtube-add' },
+          { name: '📺 YouTube Remove', value: 'youtube-remove' },
+          { name: '📺 YouTube List', value: 'youtube-list' }
         )
     )
     .addBooleanOption(option =>
@@ -81,8 +84,13 @@ function createGeneralHelp(): EmbedBuilder {
         inline: false
       },
       {
+        name: '📺 YouTube Commands (Admin Only)',
+        value: '`/youtube-add` - Add YouTube channel for video notifications\n`/youtube-remove` - Remove YouTube channel from notifications\n`/youtube-list` - List all monitored YouTube channels',
+        inline: false
+      },
+      {
         name: '📋 Quick Examples',
-        value: '`/price symbol:btc`\n`/prices symbols:btc,eth,sol`\n`/roulette options:"Game 1,Game 2"`\n`/monitor url:https://example.com channel:#alerts`\n`/twitch-add username:ninja channel:#live`',
+        value: '`/price symbol:btc`\n`/prices symbols:btc,eth,sol`\n`/roulette options:"Game 1,Game 2"`\n`/monitor url:https://example.com channel:#alerts`\n`/twitch-add username:ninja channel:#live`\n`/youtube-add channel-id:UC_x5XG1OV2P6uZZ5FSM9Ttw channel:#videos`',
         inline: false
       },
       {
@@ -182,6 +190,34 @@ function createSpecificCommandHelp(command: string): EmbedBuilder {
       examples: [
         '/twitch-list',
         '/twitch-list private:true'
+      ]
+    },
+    'youtube-add': {
+      title: '📺 /youtube-add Command (Admin Only)',
+      description: 'Add a YouTube channel for video notifications (requires Administrator permissions)',
+      usage: '/youtube-add channel-id:<youtube_channel_id> channel:<#discord_channel> [channel-name:<display_name>] [private:<true/false>]',
+      examples: [
+        '/youtube-add channel-id:UC_x5XG1OV2P6uZZ5FSM9Ttw channel:#videos',
+        '/youtube-add channel-id:UCBJycsmduvYEL83R_UopJ3Q channel:#notifications channel-name:Marques Brownlee',
+        '/youtube-add channel-id:UCuAXFkgsw1L7xaCfnd5JJOw channel:#tech private:true'
+      ]
+    },
+    'youtube-remove': {
+      title: '📺 /youtube-remove Command (Admin Only)',
+      description: 'Remove a YouTube channel from video notifications (requires Administrator permissions)',
+      usage: '/youtube-remove channel-id:<youtube_channel_id> [private:<true/false>]',
+      examples: [
+        '/youtube-remove channel-id:UC_x5XG1OV2P6uZZ5FSM9Ttw',
+        '/youtube-remove channel-id:UCBJycsmduvYEL83R_UopJ3Q private:true'
+      ]
+    },
+    'youtube-list': {
+      title: '📺 /youtube-list Command (Admin Only)',
+      description: 'List all monitored YouTube channels and their status (requires Administrator permissions)',
+      usage: '/youtube-list [private:<true/false>]',
+      examples: [
+        '/youtube-list',
+        '/youtube-list private:true'
       ]
     }
   };

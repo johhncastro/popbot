@@ -8,8 +8,10 @@ import { statusCommand } from './commands/status.js';
 import { helpCommand } from './commands/help.js';
 import { twitchAddCommand, twitchRemoveCommand, twitchListCommand } from './commands/twitch.js';
 import { minecraftCommand } from './commands/minecraft.js';
+import { youtubeAddCommand, youtubeRemoveCommand, youtubeListCommand } from './commands/youtube.js';
 import { MonitorService } from './services/monitorService.js';
 import { TwitchService } from './services/twitchService.js';
+import { YouTubeService } from './services/youtubeService.js';
 
 // Create a new client instance
 const client = new Client({
@@ -30,10 +32,14 @@ commands.set(twitchAddCommand.data.name, twitchAddCommand);
 commands.set(twitchRemoveCommand.data.name, twitchRemoveCommand);
 commands.set(twitchListCommand.data.name, twitchListCommand);
 commands.set(minecraftCommand.data.name, minecraftCommand);
+commands.set(youtubeAddCommand.data.name, youtubeAddCommand);
+commands.set(youtubeRemoveCommand.data.name, youtubeRemoveCommand);
+commands.set(youtubeListCommand.data.name, youtubeListCommand);
 
 // Initialize services
 let monitorService: MonitorService;
 let twitchService: TwitchService;
+let youtubeService: YouTubeService;
 
 // When the client is ready, run this code (only once)
 client.once(Events.ClientReady, (readyClient) => {
@@ -43,8 +49,10 @@ client.once(Events.ClientReady, (readyClient) => {
   // Initialize services
   monitorService = new MonitorService(client);
   twitchService = new TwitchService(client);
+  youtubeService = new YouTubeService(client);
   console.log('🌐 Website monitoring service initialized');
   console.log('📺 Twitch live notifications service initialized');
+  console.log('📺 YouTube video notifications service initialized');
 });
 
 // Handle slash command interactions
@@ -74,13 +82,15 @@ client.on(Events.InteractionCreate, async (interaction) => {
       }
 
       // Pass services to commands that need them
-      if ((interaction.commandName === 'monitor' || interaction.commandName === 'status') && monitorService) {
-        await (command as any).execute(interaction, monitorService);
-      } else if ((interaction.commandName === 'twitch-add' || interaction.commandName === 'twitch-remove' || interaction.commandName === 'twitch-list') && twitchService) {
-        await (command as any).execute(interaction, twitchService);
-      } else {
-        await (command as any).execute(interaction);
-      }
+              if ((interaction.commandName === 'monitor' || interaction.commandName === 'status') && monitorService) {
+                await (command as any).execute(interaction, monitorService);
+              } else if ((interaction.commandName === 'twitch-add' || interaction.commandName === 'twitch-remove' || interaction.commandName === 'twitch-list') && twitchService) {
+                await (command as any).execute(interaction, twitchService);
+              } else if ((interaction.commandName === 'youtube-add' || interaction.commandName === 'youtube-remove' || interaction.commandName === 'youtube-list') && youtubeService) {
+                await (command as any).execute(interaction, youtubeService);
+              } else {
+                await (command as any).execute(interaction);
+              }
   } catch (error) {
     console.error('Error executing command:', error);
     

@@ -7,12 +7,18 @@ export interface BotConfig {
   token: string;
   clientId: string;
   guildId?: string | undefined;
+  twitchClientId?: string;
+  twitchClientSecret?: string;
+  youtubeApiKey?: string;
 }
 
 export const botConfig: BotConfig = {
   token: process.env.DISCORD_TOKEN || '',
   clientId: process.env.DISCORD_CLIENT_ID || '',
   guildId: process.env.DISCORD_GUILD_ID || undefined,
+  twitchClientId: process.env.TWITCH_CLIENT_ID || undefined,
+  twitchClientSecret: process.env.TWITCH_CLIENT_SECRET || undefined,
+  youtubeApiKey: process.env.YOUTUBE_API_KEY || undefined,
 };
 
 // Validate required configuration
