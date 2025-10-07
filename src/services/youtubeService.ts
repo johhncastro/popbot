@@ -141,7 +141,7 @@ class YouTubeService {
       
       const embed = new EmbedBuilder()
         .setTitle('📺 New Video Uploaded!')
-        .setDescription(`@everyone **${config.channelName}** just uploaded a new video!\n\n🔗 **[Watch Video](${videoUrl})**`)
+        .setDescription(`@everyone **${config.channelName}** just uploaded a new video!`)
         .setColor(0xff0000)
         .addFields(
           { name: '📺 Video Title', value: video.snippet.title, inline: false },
@@ -155,7 +155,7 @@ class YouTubeService {
         .setFooter({ text: 'PopBot YouTube Notifications' });
 
       await channel.send({ 
-        content: `@everyone **${config.channelName}** uploaded a new video! 📺\n🔗 ${videoUrl}`,
+        content: `@everyone **${config.channelName}** uploaded a new video! 📺`,
         embeds: [embed] 
       });
 
