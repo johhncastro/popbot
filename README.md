@@ -5,8 +5,10 @@ A Discord bot built with Node.js and TypeScript that provides cryptocurrency pri
 
 - 💰 **Crypto Prices** - Real-time cryptocurrency prices from CoinGecko
 - 🎰 **Roulette Wheel** - Animated spinning wheel for random selection
+- 🎮 **Minecraft Search** - Look up player data, skins, capes, and name history
 - 🌐 **Website Monitoring** - Monitor websites and get alerts when they go down (Admin Only)
 - 📺 **Twitch Notifications** - Get notified when streamers go live (Admin Only)
+- 📺 **YouTube Notifications** - Get notified when channels upload new videos (Admin Only)
 - 🔧 **Status Checking** - Check monitoring service status and health (Admin Only)
 - ⚡ **Fast & Reliable** - Built with TypeScript and modern Discord.js
 
@@ -27,7 +29,7 @@ npm install
 
 # Create .env file
 cp .env.example .env
-# Add your Discord and Twitch credentials to .env
+# Add your Discord, Twitch, and YouTube credentials to .env
 
 # Deploy commands
 npm run deploy:global
@@ -42,6 +44,7 @@ npm run dev
 - 💰 `/price symbol:btc` - Get single cryptocurrency price
 - 📊 `/prices symbols:btc,eth,sol` - Get multiple cryptocurrency prices
 - 🎰 `/roulette options:"Game 1,Game 2,Game 3"` - Spin the roulette wheel
+- 🎮 `/minecraftsearch username:player` - Search Minecraft player data
 - ❓ `/help` - Get help and information about all commands
 
 ### 🔒 Admin Commands (Requires Administrator Permission)
@@ -50,6 +53,9 @@ npm run dev
 - 📺 `/twitch-add username:streamer channel:#live` - Add Twitch streamer for live notifications
 - 🗑️ `/twitch-remove username:streamer` - Remove Twitch streamer from notifications
 - 📋 `/twitch-list` - List all monitored Twitch streamers
+- 📺 `/youtube-add channel-id:UC_xxx channel:#videos` - Add YouTube channel for video notifications
+- 🗑️ `/youtube-remove channel-id:UC_xxx` - Remove YouTube channel from notifications
+- 📋 `/youtube-list` - List all monitored YouTube channels
 
 ## 🎰 Roulette Examples
 
@@ -80,6 +86,28 @@ Get notified when your favorite streamers go live:
 ```
 
 **Note:** Requires Administrator permissions to manage Twitch notifications.
+
+## 📺 YouTube Video Notifications (Admin Only)
+
+Get notified when your favorite YouTube channels upload new videos:
+
+```
+/youtube-add channel-id:UC_x5XG1OV2P6uZZ5FSM9Ttw channel:#videos
+/youtube-add channel-id:UCBJycsmduvYEL83R_UopJ3Q channel:#notifications channel-name:Marques Brownlee
+/youtube-list
+```
+
+**Note:** Requires Administrator permissions to manage YouTube notifications.
+
+## 🎮 Minecraft Player Search
+
+Look up Minecraft player information including skins, capes, and name history:
+
+```
+/minecraftsearch username:notch
+/minecraftsearch username:dream
+/minecraftsearch username:technoblade
+```
 
 ## 🐳 Docker Deployment
 
