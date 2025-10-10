@@ -97,6 +97,11 @@ Get notified when your favorite YouTube channels upload new videos:
 /youtube-list
 ```
 
+**Features:**
+- 🆓 **No API quota limits** - Uses YouTube RSS feeds (completely free!)
+- ⚡ **Checks every 5 minutes** - Fast notifications for new uploads
+- 🔑 **No API key required** - Works without YouTube Data API v3
+
 **Note:** Requires Administrator permissions to manage YouTube notifications.
 
 ## 🎮 Minecraft Player Search
@@ -116,7 +121,6 @@ Look up Minecraft player information including skins, capes, and name history:
 docker-compose up -d
 ```
 
-**Note:** Discord bots don't need exposed ports - they connect to Discord's servers, not run web servers.
 
 ## 📄 License
 

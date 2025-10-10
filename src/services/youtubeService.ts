@@ -22,8 +22,7 @@ class YouTubeService {
     this.apiKey = process.env.YOUTUBE_API_KEY || '';
     
     if (!this.apiKey) {
-      console.warn('⚠️ YouTube API key not found. YouTube notifications will not work.');
-      return;
+      console.warn('⚠️ YouTube API key not found. Channel verification on add will be skipped, but monitoring will still work via RSS.');
     }
 
     this.loadChannels();
@@ -96,29 +95,43 @@ class YouTubeService {
     if (!config) return;
 
     try {
-      // Get channel info and latest video
-      const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${config.youtubeChannelId}&maxResults=1&order=date&type=video&key=${this.apiKey}`
-      );
+      // Use RSS feed instead of API to avoid quota limits
+      // RSS feed is free and has no quota restrictions
+      const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${config.youtubeChannelId}`;
+      const response = await fetch(rssUrl);
 
       if (!response.ok) {
-        console.error(`Failed to check YouTube channel ${config.channelName}: ${response.statusText}`);
+        console.error(`Failed to check YouTube channel ${config.channelName}: ${response.status} ${response.statusText}`);
         return;
       }
 
-      const data = await response.json();
+      const xmlText = await response.text();
       
-      if (data.items && data.items.length > 0) {
-        const latestVideo = data.items[0];
-        const videoId = latestVideo.id.videoId;
+      // Parse the RSS feed to get the latest video
+      const videoIdMatch = xmlText.match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
+      const titleMatch = xmlText.match(/<title>([^<]+)<\/title>/g);
+      const publishedMatch = xmlText.match(/<published>([^<]+)<\/published>/);
+      const thumbnailMatch = xmlText.match(/<media:thumbnail url="([^"]+)"/);
+      
+      if (videoIdMatch?.[1] && titleMatch) {
+        const videoId = videoIdMatch[1];
+        // First title is channel name, second is video title
+        const videoTitle = titleMatch[1]?.replace(/<title>|<\/title>/g, '') || 'Unknown Video';
+        const publishedAt = publishedMatch?.[1] || new Date().toISOString();
+        const thumbnailUrl = thumbnailMatch?.[1] || null;
         
         // If this is a new video (different from last checked)
         if (videoId !== config.lastVideoId) {
           config.lastVideoId = videoId;
           config.lastChecked = Date.now();
           
-          // Send notification
-          await this.sendVideoNotification(config, latestVideo);
+          // Send notification with parsed RSS data
+          await this.sendVideoNotification(config, {
+            videoId,
+            title: videoTitle,
+            publishedAt,
+            thumbnailUrl
+          });
           this.saveChannels();
         } else {
           // Update last checked time
@@ -136,7 +149,7 @@ class YouTubeService {
       const channel = await this.client.channels.fetch(config.channelId) as TextChannel;
       if (!channel) return;
 
-      const videoUrl = `https://www.youtube.com/watch?v=${video.id.videoId}`;
+      const videoUrl = `https://www.youtube.com/watch?v=${video.videoId}`;
       const channelUrl = `https://www.youtube.com/channel/${config.youtubeChannelId}`;
       
       const embed = new EmbedBuilder()
@@ -144,15 +157,18 @@ class YouTubeService {
         .setDescription(`@everyone **${config.channelName}** just uploaded a new video!`)
         .setColor(0xff0000)
         .addFields(
-          { name: '📺 Video Title', value: video.snippet.title, inline: false },
-          { name: '📅 Published', value: `<t:${Math.floor(new Date(video.snippet.publishedAt).getTime() / 1000)}:R>`, inline: true },
+          { name: '📺 Video Title', value: video.title, inline: false },
+          { name: '📅 Published', value: `<t:${Math.floor(new Date(video.publishedAt).getTime() / 1000)}:R>`, inline: true },
           { name: '👤 Channel', value: `[${config.channelName}](${channelUrl})`, inline: true },
-          { name: '🔗 YouTube Link', value: `[youtube.com/watch?v=${video.id.videoId}](${videoUrl})`, inline: false }
+          { name: '🔗 YouTube Link', value: `[youtube.com/watch?v=${video.videoId}](${videoUrl})`, inline: false }
         )
-        .setThumbnail(video.snippet.thumbnails.high?.url || video.snippet.thumbnails.default?.url)
         .setURL(videoUrl)
         .setTimestamp()
         .setFooter({ text: 'PopBot YouTube Notifications' });
+
+      if (video.thumbnailUrl) {
+        embed.setThumbnail(video.thumbnailUrl);
+      }
 
       await channel.send({ 
         content: `@everyone **${config.channelName}** uploaded a new video! 📺`,

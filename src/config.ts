@@ -7,9 +7,9 @@ export interface BotConfig {
   token: string;
   clientId: string;
   guildId?: string | undefined;
-  twitchClientId?: string;
-  twitchClientSecret?: string;
-  youtubeApiKey?: string;
+  twitchClientId?: string | undefined;
+  twitchClientSecret?: string | undefined;
+  youtubeApiKey?: string | undefined;
 }
 
 export const botConfig: BotConfig = {

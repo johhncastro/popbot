@@ -73,28 +73,27 @@ export const youtubeAddCommand = {
         return;
       }
 
-      // Test if the YouTube channel exists
-      const testResponse = await fetch(
-        `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${youtubeChannelId}&key=${process.env.YOUTUBE_API_KEY}`
-      );
-
-      if (!testResponse.ok) {
-        await interaction.editReply({
-          content: '❌ Failed to verify YouTube channel. Please check the channel ID and try again.',
-        });
-        return;
+      // Try to get the channel name using RSS feed (no API quota needed)
+      let actualChannelName = channelName;
+      
+      if (channelName === 'Unknown Channel') {
+        try {
+          const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${youtubeChannelId}`;
+          const rssResponse = await fetch(rssUrl);
+          
+          if (rssResponse.ok) {
+            const xmlText = await rssResponse.text();
+            const titleMatch = xmlText.match(/<title>([^<]+)<\/title>/);
+            if (titleMatch && titleMatch[1]) {
+              actualChannelName = titleMatch[1];
+            }
+          }
+        } catch (error) {
+          console.error('Failed to fetch channel name from RSS:', error);
+        }
       }
-
-      const testData = await testResponse.json();
-      if (!testData.items || testData.items.length === 0) {
-        await interaction.editReply({
-          content: '❌ YouTube channel not found. Please check the channel ID and try again.',
-        });
-        return;
-      }
-
-      const actualChannelName = testData.items[0].snippet.title;
-      const finalChannelName = channelName === 'Unknown Channel' ? actualChannelName : channelName;
+      
+      const finalChannelName = actualChannelName;
 
       // Add to monitoring
       const monitorId = `${youtubeChannelId}-${channel.id}`;
