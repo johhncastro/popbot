@@ -158,8 +158,6 @@ class YouTubeService {
         .setColor(0xff0000)
         .addFields(
           { name: '📺 Video Title', value: video.title, inline: false },
-          { name: '📅 Published', value: `<t:${Math.floor(new Date(video.publishedAt).getTime() / 1000)}:R>`, inline: true },
-          { name: '👤 Channel', value: `[${config.channelName}](${channelUrl})`, inline: true },
           { name: '🔗 YouTube Link', value: `[youtube.com/watch?v=${video.videoId}](${videoUrl})`, inline: false }
         )
         .setURL(videoUrl)
