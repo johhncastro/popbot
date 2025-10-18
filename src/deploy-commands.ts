@@ -8,6 +8,7 @@ import { helpCommand } from './commands/help.js';
 import { twitchAddCommand, twitchRemoveCommand, twitchListCommand } from './commands/twitch.js';
 import { minecraftCommand } from './commands/minecraft.js';
 import { youtubeAddCommand, youtubeRemoveCommand, youtubeListCommand } from './commands/youtube.js';
+import { whitelistCommand } from './commands/whitelist.js';
 
 const commands = [
   priceCommand.data.toJSON(),
@@ -23,6 +24,7 @@ const commands = [
   youtubeAddCommand.data.toJSON(),
   youtubeRemoveCommand.data.toJSON(),
   youtubeListCommand.data.toJSON(),
+  whitelistCommand.data.toJSON(),
 ];
 
 // Construct and prepare an instance of the REST module

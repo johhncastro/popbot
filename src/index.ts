@@ -9,6 +9,7 @@ import { helpCommand } from './commands/help.js';
 import { twitchAddCommand, twitchRemoveCommand, twitchListCommand } from './commands/twitch.js';
 import { minecraftCommand } from './commands/minecraft.js';
 import { youtubeAddCommand, youtubeRemoveCommand, youtubeListCommand } from './commands/youtube.js';
+import { whitelistCommand } from './commands/whitelist.js';
 import { MonitorService } from './services/monitorService.js';
 import { TwitchService } from './services/twitchService.js';
 import { YouTubeService } from './services/youtubeService.js';
@@ -35,6 +36,7 @@ commands.set(minecraftCommand.data.name, minecraftCommand);
 commands.set(youtubeAddCommand.data.name, youtubeAddCommand);
 commands.set(youtubeRemoveCommand.data.name, youtubeRemoveCommand);
 commands.set(youtubeListCommand.data.name, youtubeListCommand);
+commands.set(whitelistCommand.data.name, whitelistCommand);
 
 // Initialize services
 let monitorService: MonitorService;
