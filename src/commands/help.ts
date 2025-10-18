@@ -14,6 +14,7 @@ export const helpCommand = {
           { name: '📊 Prices', value: 'prices' },
           { name: '🎰 Roulette', value: 'roulette' },
           { name: '🎮 Minecraft Search', value: 'minecraftsearch' },
+          { name: '📝 Whitelist', value: 'whitelist' },
           { name: '🌐 Monitor', value: 'monitor' },
           { name: '🔧 Status', value: 'status' },
           { name: '📺 Twitch Add', value: 'twitch-add' },
@@ -71,6 +72,11 @@ function createGeneralHelp(): EmbedBuilder {
       {
         name: '🎰 Fun Commands',
         value: '`/roulette` - Spin the wheel for random selection\n`/minecraftsearch` - Search Minecraft player data',
+        inline: false
+      },
+      {
+        name: '🎮 Minecraft Server',
+        value: '`/whitelist` - Add a player to the Minecraft server whitelist',
         inline: false
       },
       {
@@ -143,6 +149,16 @@ function createSpecificCommandHelp(command: string): EmbedBuilder {
         '/minecraftsearch username:notch',
         '/minecraftsearch username:dream',
         '/minecraftsearch username:technoblade private:true'
+      ]
+    },
+    'whitelist': {
+      title: '📝 /whitelist Command',
+      description: 'Add a player to the Minecraft server whitelist',
+      usage: '/whitelist username:<player> [private:<true/false>]',
+      examples: [
+        '/whitelist username:yukmi',
+        '/whitelist username:notch',
+        '/whitelist username:dream private:true'
       ]
     },
     monitor: {
@@ -260,6 +276,8 @@ function getCommandTips(command: string): string {
     price: '• Supports 100+ cryptocurrencies\n• Use lowercase symbols (btc, eth, sol)\n• Multiple currencies supported (USD, EUR, GBP, etc.)',
     prices: '• Maximum 10 symbols per request\n• Use commas to separate symbols\n• Rate limited to 1 request per 3 seconds',
     roulette: '• Maximum 10 options per spin\n• Use quotes around the options list\n• Great for random selection games',
+    minecraftsearch: '• Shows player skin, cape, and name history\n• Uses official Mojang API\n• Works for all Java Edition players',
+    whitelist: '• Automatically fetches player UUID from Mojang\n• Prevents duplicate entries\n• Updates whitelist.json immediately\n• Player can join server right away',
     monitor: '• Monitors websites every 5 minutes by default\n• Sends @here alerts when sites go down\n• Automatically detects recovery',
     status: '• Shows all active monitors\n• Displays last check times\n• Helps troubleshoot monitoring issues',
     'twitch-add': '• Use Twitch username without @ symbol\n• @everyone will be pinged when they go live\n• Check every 2 minutes for live status',

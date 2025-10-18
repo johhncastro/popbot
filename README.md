@@ -6,6 +6,7 @@ A Discord bot built with Node.js and TypeScript that provides cryptocurrency pri
 - 💰 **Crypto Prices** - Real-time cryptocurrency prices from CoinGecko
 - 🎰 **Roulette Wheel** - Animated spinning wheel for random selection
 - 🎮 **Minecraft Search** - Look up player data, skins, capes, and name history
+- 📝 **Minecraft Whitelist** - Add players to your Minecraft server whitelist
 - 🌐 **Website Monitoring** - Monitor websites and get alerts when they go down (Admin Only)
 - 📺 **Twitch Notifications** - Get notified when streamers go live (Admin Only)
 - 📺 **YouTube Notifications** - Get notified when channels upload new videos (Admin Only)
@@ -45,6 +46,7 @@ npm run dev
 - 📊 `/prices symbols:btc,eth,sol` - Get multiple cryptocurrency prices
 - 🎰 `/roulette options:"Game 1,Game 2,Game 3"` - Spin the roulette wheel
 - 🎮 `/minecraftsearch username:player` - Search Minecraft player data
+- 📝 `/whitelist username:yukmi` - Add a player to the Minecraft server whitelist
 - ❓ `/help` - Get help and information about all commands
 
 ### 🔒 Admin Commands (Requires Administrator Permission)
@@ -104,7 +106,9 @@ Get notified when your favorite YouTube channels upload new videos:
 
 **Note:** Requires Administrator permissions to manage YouTube notifications.
 
-## 🎮 Minecraft Player Search
+## 🎮 Minecraft Commands
+
+### Minecraft Player Search
 
 Look up Minecraft player information including skins, capes, and name history:
 
@@ -113,6 +117,22 @@ Look up Minecraft player information including skins, capes, and name history:
 /minecraftsearch username:dream
 /minecraftsearch username:technoblade
 ```
+
+### Minecraft Server Whitelist
+
+Add players to your Minecraft server whitelist with automatic UUID lookup:
+
+```
+/whitelist username:yukmi
+/whitelist username:notch
+/whitelist username:dream
+```
+
+**Features:**
+- ✅ **Automatic UUID Lookup** - Fetches player UUID from Mojang API
+- 🔒 **Duplicate Prevention** - Won't add the same player twice
+- ⚡ **Instant Updates** - Updates whitelist.json immediately
+- 🎮 **Ready to Join** - Players can join the server right away
 
 ## 🐳 Docker Deployment
 
